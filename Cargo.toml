@@ -1,0 +1,33 @@
+[package]
+name = "UnHEIC"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+gpui = { version = "0.2", features = ["objc2", "objc2-metal"] }
+gpui-component = { version = "0.5", features = [] }
+gpui-component-assets = { version = "0.5", features = [] }
+directories = { version = "6", features = [] }
+rfd = { version = "0.17", features = [] }
+smol = { version = "2.0", features = [] }
+strum = { version = "0.27", features = ["derive"] }
+libheif-rs = { version = "2.6", features = ["image", "latest", "embedded-libheif", "v1_21"], default-features = false }
+image = { version = "0.25", features = ["rayon", "nasm"], default-features = false }
+mimetype-detector = { version = "0.3", features = [] }
+ordermap = { version = "1.1", features = ["rayon"] }
+webp = { version = "0.3", features = [] }
+png = { version = "0.18", features = ["zlib-rs"] }
+turbojpeg = { version = "1.4", features = ["image"] }
+tiff = { version = "0.11", features = [] }
+rayon = { version = "1.11", features = [] }
+
+[patch.crates-io]
+libheif-sys = { git = "https://github.com/philippemy/libheif-sys" }
+
+[profile.release]
+debug = false
+strip = true  # Automatically strip symbols from the binary.
+opt-level = 3  # Optimize for speed.
+lto = true
+codegen-units = 1
+panic = "abort"
