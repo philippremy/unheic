@@ -22,7 +22,7 @@ tiff = { version = "0.11", features = [] }
 rayon = { version = "1.11", features = [] }
 
 [patch.crates-io]
-libheif-sys = { git = "https://github.com/philippemy/libheif-sys" }
+libheif-sys = { git = "https://github.com/philippremy/libheif-sys" }
 
 [profile.release]
 debug = false
