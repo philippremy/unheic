@@ -3215,6 +3215,7 @@ dependencies = [
 [[package]]
 name = "libheif-sys"
 version = "5.1.1+1.21.2"
+source = "git+https://github.com/philippremy/libheif-sys#1a10bf391c988215f773ebbc035303f7b0832095"
 dependencies = [
  "bindgen 0.72.1",
  "cfg-if",

@@ -23,6 +23,7 @@ rayon = { version = "1.11", features = [] }
 
 [patch.crates-io]
 libheif-sys = { git = "https://github.com/philippremy/libheif-sys" }
+turbojpeg-sys = { git = "https://github.com/philippremy/rust-turbojpeg" }
 
 [profile.release]
 debug = false
