@@ -1,33 +1,62 @@
 [package]
-name = "UnHEIC"
-version = "0.1.0"
+name = "unheic"
+version = "0.0.1"
+license = "GPLv3-only"
 edition = "2024"
+build = "src/rust/build.rs"
+authors = [
+    "Philipp Remy <philipp@philippremy.net>"
+]
 
-[dependencies]
-gpui = { version = "0.2", features = ["objc2", "objc2-metal"] }
-gpui-component = { version = "0.5", features = [] }
-gpui-component-assets = { version = "0.5", features = [] }
-directories = { version = "6", features = [] }
-rfd = { version = "0.17", features = [] }
-smol = { version = "2.0", features = [] }
-strum = { version = "0.27", features = ["derive"] }
-libheif-rs = { version = "2.6", features = ["image", "latest", "embedded-libheif", "v1_21"], default-features = false }
-image = { version = "0.25", features = ["rayon", "nasm"], default-features = false }
-mimetype-detector = { version = "0.3", features = [] }
-ordermap = { version = "1.1", features = ["rayon"] }
-webp = { version = "0.3", features = [] }
-png = { version = "0.18", features = ["zlib-rs"] }
-turbojpeg = { version = "1.4", features = ["image"] }
-tiff = { version = "0.11", features = [] }
-rayon = { version = "1.11", features = [] }
-
-[patch.crates-io]
-libheif-sys = { git = "https://github.com/philippremy/libheif-sys" }
+[lib]
+name = "unheic"
+path = "src/rust/lib.rs"
+crate-type = ["staticlib"]
 
 [profile.release]
-debug = false
-strip = true  # Automatically strip symbols from the binary.
-opt-level = 3  # Optimize for speed.
-lto = true
+strip = true
+opt-level = "z"
+lto = "thin"
 codegen-units = 1
-panic = "abort"
+
+[profile.dev]
+debug = 2
+split-debuginfo = "unpacked"
+
+[dependencies]
+gpui = { git = "https://github.com/zed-industries/zed.git", branch = "main", features = ["font-kit"] }
+gpui_platform = { git = "https://github.com/zed-industries/zed.git", branch = "main", features = ["font-kit"] }
+gpui-component = { git = "https://github.com/longbridge/gpui-component.git", branch = "main" }
+gpui-component-assets = { git = "https://github.com/longbridge/gpui-component.git", branch = "main" }
+
+# Util dependencies
+thiserror = { version = "2", features = [] }
+log = { version = "0.4", features = [] }
+flexi_logger = { version = "0.31", features = ["affinity", "async", "colors"] }
+build-info = { version = "0", features = [] }
+chrono = { version = "0.4", features = [] }
+directories = { version = "6", features = [] }
+backtrace = { version = "0.3", features = ["coresymbolication", "cpp_demangle", "libunwind", "dladdr", "kernel32", "unix-backtrace", "dbghelp", "dl_iterate_phdr"] }
+native-dialog = { version = "0.9", features = ["async", "windows_dpi_awareness", "windows_visual_styles"] }
+serde_json = { version = "1", features = [] }
+rust-embed = { version = "8", features = ["interpolate-folder-path"] }
+anyhow = { version = "1", features = [] }
+strum = { version = "0.28", features = ["derive"] }
+indexmap = { version = "2", features = [] }
+
+[build-dependencies]
+build-info-build = { version = "0", features = [] }
+bindgen = { version = "0.72", features = ["experimental"] }
+
+[target.'cfg(target_vendor = "apple")'.dependencies]
+core-text = "=21.0.0"
+
+[patch.crates-io]
+gpui = { git = 'https://github.com/philippremy/zed.git', rev = '2359643' }
+gpui_windows = { git = "https://github.com/philippremy/zed.git", rev = "2359643" }
+gpui_platform = { git = "https://github.com/philippremy/zed.git", rev = '2359643' }
+
+[patch.'https://github.com/zed-industries/zed.git']
+gpui = { git = 'https://github.com/philippremy/zed.git', rev = '2359643' }
+gpui_windows = { git = 'https://github.com/philippremy/zed.git', rev = '2359643' }
+gpui_platform = { git = "https://github.com/philippremy/zed.git", rev = '2359643' }
